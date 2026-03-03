@@ -1,5 +1,7 @@
 version: '3.8'
+
 services:
+  # 1. The PostgreSQL Database
   postgres:
     image: postgres:15
     environment:
@@ -10,6 +12,34 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. The Python/DBOS Backend
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      # Pass the database URL to DBOS
+      - DATABASE_URL=postgresql://postgres:dbos_password@postgres:5432/workflow_db
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # 3. The React/Vite Frontend
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      # Tell Vite where the backend is for API calls
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
 
 volumes:
   pgdata:

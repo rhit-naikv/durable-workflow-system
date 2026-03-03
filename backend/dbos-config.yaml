@@ -1,0 +1,6 @@
+database:
+  hostname: postgres
+  port: 5432
+  username: postgres
+  password: dbos_password
+  app_db_name: workflow_db
