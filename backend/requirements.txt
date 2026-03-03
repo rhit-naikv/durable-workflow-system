@@ -2,3 +2,5 @@ fastapi
 uvicorn
 dbos
 pydantic
+psycopg[binary]
+psycopg_pool
