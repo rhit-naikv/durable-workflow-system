@@ -4,3 +4,9 @@ dbos
 pydantic
 psycopg[binary]
 psycopg_pool
+
+# Test dependencies
+pytest
+pytest-mock
+httpx
+pytest-cov

@@ -148,7 +148,7 @@ export function RunDetailPage() {
     if (error) {
         return (
             <div className="page">
-                <div className="error-banner">
+                <div className="error-banner" role="alert">
                     <span className="error-banner__icon">⚠</span>
                     {error}
                 </div>

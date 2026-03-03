@@ -1,0 +1,44 @@
+name: Run Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Python dependencies
+        run: |
+          cd backend
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest
+          
+      - name: Install Node dependencies
+        run: |
+          cd frontend
+          npm install
+          
+      - name: Run Backend Tests
+        run: |
+          cd backend
+          pytest --cov=. --cov-report=term-missing --cov-fail-under=85 tests/ -v
+          
+      - name: Run Frontend Tests
+        run: |
+          cd frontend
+          npm run test:coverage
