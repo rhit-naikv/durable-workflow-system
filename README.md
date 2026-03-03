@@ -70,6 +70,20 @@ docker compose up --build
 | `steps[].config.params` | No | Arbitrary parameters passed to the action handler |
 | `steps[].depends_on` | No | List of step IDs that must complete first (default: `[]`) |
 
+### Supported Actions
+
+You can provide **any string** as an `action`. 
+
+The system includes 6 predefined actions with specific simulated behaviors (mock latency, realistic output payloads):
+1. `validate_order`
+2. `fetch_dataset`
+3. `generate_prompt`
+4. `call_llm`
+5. `validate_output`
+6. `store_results`
+
+If you provide a custom action name (e.g. `"action": "send_welcome_email"`), the system will use a generic fallback handler that simulates execution by sleeping for 1-2 seconds and returning a standard success payload containing the provided `params`.
+
 ## API Endpoints
 
 | Method | Path | Description |
